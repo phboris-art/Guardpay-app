@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GuardPay — L'app des agents de sécurité</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080C10;
+  --surface: #0F1520;
+  --surface2: #141B28;
+  --border: #1E2A3A;
+  --accent: #F0A500;
+  --accent-dim: rgba(240,165,0,0.12);
+  --accent-glow: rgba(240,165,0,0.25);
+  --blue: #1F6FEB;
+  --blue-dim: rgba(31,111,235,0.12);
+  --success: #3FB950;
+  --night: #58A6FF;
+  --sunday: #BC8CFF;
+  --holiday: #FF7B72;
+  --text: #E6EDF3;
+  --muted: #7A8899;
+  --muted2: #4A5568;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ═══ GRID BG ═══ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(240,165,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,165,0,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══ NAV ═══ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 40px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(8,12,16,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--accent);
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+.nav-logo span { color: var(--text); }
+
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+.nav-cta {
+  background: var(--accent) !important;
+  color: #000 !important;
+  padding: 9px 22px;
+  border-radius: 8px;
+  font-weight: 700 !important;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.03em;
+  transition: opacity 0.2s !important;
+}
+.nav-cta:hover { opacity: 0.88; }
+
+/* ═══ HERO ═══ */
+.hero {
+  position: relative;
+  padding: 180px 40px 120px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 80px;
+  align-items: center;
+  z-index: 1;
+}
+
+.hero-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,165,0,0.08) 0%, transparent 70%);
+  top: 80px;
+  right: -100px;
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(240,165,0,0.25);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: fadeUp 0.6s ease both;
+}
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.8rem, 5vw, 4.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--accent);
+  position: relative;
+}
+
+.hero-title em::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  opacity: 0.4;
+  border-radius: 2px;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 40px;
+  font-weight: 300;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.btn-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 10px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-hero-primary {
+  background: var(--accent);
+  color: #000;
+  box-shadow: 0 0 40px rgba(240,165,0,0.25);
+}
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(240,165,0,0.35);
+}
+
+.btn-hero-secondary {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-hero-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 36px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+.hero-trust-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--muted2);
+}
+
+/* ═══ PHONE MOCKUP ═══ */
+.phone-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.phone-glow-wrap {
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(ellipse at center, rgba(240,165,0,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.phone {
+  width: 280px;
+  background: #0D1117;
+  border-radius: 36px;
+  border: 2px solid #2A3441;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05),
+    0 40px 80px rgba(0,0,0,0.6),
+    0 0 60px rgba(240,165,0,0.1);
+  position: relative;
+}
+
+.phone-notch {
+  height: 28px;
+  background: #080C10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.phone-notch-inner {
+  width: 80px;
+  height: 14px;
+  background: #1A2030;
+  border-radius: 100px;
+}
+
+.phone-screen {
+  background: #0D1117;
+}
+
+.phone-header {
+  background: #161B22;
+  border-bottom: 1px solid #30363D;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.phone-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #F0A500;
+}
+.phone-logo span { color: #E6EDF3; }
+
+.phone-nav {
+  display: flex;
+  background: #161B22;
+  border-bottom: 1px solid #30363D;
+}
+.phone-tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 4px 6px;
+  font-size: 0.45rem;
+  color: #8B949E;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.phone-tab.active { color: #F0A500; border-bottom: 1.5px solid #F0A500; }
+
+.phone-content { padding: 10px 10px 16px; }
+
+.phone-stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.phone-stat {
+  background: #21262D;
+  border: 1px solid #30363D;
+  border-radius: 8px;
+  padding: 10px 8px;
+}
+.phone-stat.accent {
+  background: rgba(240,165,0,0.08);
+  border-color: rgba(240,165,0,0.3);
+}
+.phone-stat-label {
+  font-size: 0.42rem;
+  color: #8B949E;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+.phone-stat-value {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #E6EDF3;
+}
+.phone-stat-value.accent { color: #F0A500; }
+
+.phone-card {
+  background: #161B22;
+  border: 1px solid #30363D;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 6px;
+}
+.phone-card-title {
+  font-size: 0.45rem;
+  color: #8B949E;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.phone-shift {
+  background: #21262D;
+  border: 1px solid #30363D;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.phone-shift-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  min-width: 24px;
+  text-align: center;
+  line-height: 1;
+  color: #E6EDF3;
+}
+.phone-shift-num small {
+  display: block;
+  font-size: 0.38rem;
+  font-weight: 600;
+  color: #8B949E;
+  text-transform: uppercase;
+}
+.phone-shift-info { flex: 1; }
+.phone-shift-hours {
+  font-size: 0.45rem;
+  color: #8B949E;
+  font-family: 'DM Mono', monospace;
+}
+.phone-shift-type {
+  display: inline-block;
+  font-size: 0.38rem;
+  padding: 1px 5px;
+  border-radius: 100px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+.type-n { background: rgba(88,166,255,0.2); color: #58A6FF; }
+.type-d { background: rgba(188,140,255,0.2); color: #BC8CFF; }
+.type-ok { background: rgba(63,185,80,0.15); color: #3FB950; }
+.phone-shift-pay {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  color: #F0A500;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══ FEATURES ═══ */
+section {
+  position: relative;
+  z-index: 1;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.section-sub {
+  font-size: 1.05rem;
+  color: var(--muted);
+  font-weight: 300;
+  max-width: 520px;
+  line-height: 1.7;
+}
+
+/* ─ FEATURES GRID ─ */
+.features-section {
+  padding: 120px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+.features-header .section-sub { margin: 0 auto; }
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(240,165,0,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.feature-card:hover {
+  border-color: rgba(240,165,0,0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+.feature-card:hover::before { opacity: 1; }
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(240,165,0,0.2);
+}
+
+.feature-card.blue .feature-icon {
+  background: var(--blue-dim);
+  border-color: rgba(31,111,235,0.25);
+}
+.feature-card.purple .feature-icon {
+  background: rgba(188,140,255,0.1);
+  border-color: rgba(188,140,255,0.25);
+}
+.feature-card.green .feature-icon {
+  background: rgba(63,185,80,0.1);
+  border-color: rgba(63,185,80,0.25);
+}
+.feature-card.red .feature-icon {
+  background: rgba(248,81,73,0.1);
+  border-color: rgba(248,81,73,0.25);
+}
+
+.feature-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+
+.feature-desc {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.feature-card.large {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.feature-card.large .feature-content { padding: 8px; }
+.feature-card.large .feature-icon { width: 56px; height: 56px; font-size: 1.6rem; margin-bottom: 24px; }
+.feature-card.large .feature-title { font-size: 1.25rem; margin-bottom: 14px; }
+.feature-card.large .feature-desc { font-size: 0.92rem; }
+
+/* ─ RATES ─ */
+.rates-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.rates-tag:last-child { border-bottom: none; }
+.rates-tag-left { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; }
+.rates-tag-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.rates-tag-name { font-weight: 500; }
+.rates-tag-desc { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.rates-tag-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* ─ HOW IT WORKS ─ */
+.how-section {
+  padding: 120px 40px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.how-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.how-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+.how-header .section-sub { margin: 0 auto; }
+
+.steps-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  position: relative;
+}
+
+.steps-row::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(12.5% + 28px);
+  right: calc(12.5% + 28px);
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), var(--blue), var(--sunday));
+  opacity: 0.3;
+}
+
+.step {
+  text-align: center;
+  padding: 0 24px;
+  position: relative;
+}
+
+.step-num {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin: 0 auto 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.step:nth-child(1) .step-num { background: var(--accent-dim); border: 2px solid var(--accent); color: var(--accent); }
+.step:nth-child(2) .step-num { background: var(--blue-dim); border: 2px solid var(--blue); color: var(--blue); }
+.step:nth-child(3) .step-num { background: rgba(188,140,255,0.1); border: 2px solid var(--sunday); color: var(--sunday); }
+.step:nth-child(4) .step-num { background: rgba(63,185,80,0.1); border: 2px solid var(--success); color: var(--success); }
+
+.step-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+.step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+/* ─ CCN BANNER ─ */
+.ccn-banner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px 120px;
+}
+
+.ccn-card {
+  background: linear-gradient(135deg, rgba(240,165,0,0.08) 0%, rgba(31,111,235,0.05) 100%);
+  border: 1px solid rgba(240,165,0,0.2);
+  border-radius: 20px;
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: center;
+}
+
+.ccn-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+.ccn-sub { color: var(--muted); font-size: 0.95rem; line-height: 1.7; font-weight: 300; max-width: 480px; }
+
+.ccn-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--accent);
+  color: #000;
+  padding: 16px 28px;
+  border-radius: 12px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+/* ─ INSTALL ─ */
+.install-section {
+  padding: 120px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.install-section .section-title { margin-bottom: 16px; }
+.install-section .section-sub { margin: 0 auto 60px; }
+
+.install-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  text-align: left;
+  margin-bottom: 60px;
+}
+
+.install-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.3s;
+}
+.install-card:hover { border-color: rgba(240,165,0,0.2); }
+
+.install-os {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.install-os-icon { font-size: 1.8rem; }
+.install-os-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.install-os-sub { font-size: 0.78rem; color: var(--muted); }
+
+.install-steps { list-style: none; }
+.install-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+.install-steps li:last-child { border-bottom: none; }
+.install-step-n {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.install-dl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--accent);
+  color: #000;
+  padding: 18px 40px;
+  border-radius: 12px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-decoration: none;
+  box-shadow: 0 0 50px rgba(240,165,0,0.25);
+  transition: all 0.2s;
+  letter-spacing: -0.01em;
+}
+.install-dl-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 50px rgba(240,165,0,0.35);
+}
+
+.install-note {
+  margin-top: 20px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* ─ FAQ ─ */
+.faq-section {
+  padding: 0 40px 120px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-header { text-align: center; margin-bottom: 60px; }
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0;
+}
+
+.faq-q {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.faq-a { font-size: 0.9rem; color: var(--muted); line-height: 1.7; font-weight: 300; }
+.faq-a strong { color: var(--accent); font-weight: 600; }
+
+/* ─ FOOTER ─ */
+footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 48px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+.footer-logo span { color: var(--muted); }
+
+.footer-copy { font-size: 0.8rem; color: var(--muted); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--text); }
+
+/* ─ DIVIDER ─ */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0 40px;
+}
+
+/* ─ MOBILE ─ */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 120px 24px 80px;
+    gap: 60px;
+    text-align: center;
+  }
+  .hero-glow { display: none; }
+  .hero-sub { margin: 0 auto 40px; }
+  .hero-actions { justify-content: center; }
+  .hero-trust { justify-content: center; }
+  .phone-wrap { order: -1; }
+  .phone { width: 240px; }
+
+  .features-section { padding: 80px 24px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .feature-card.large { grid-column: span 1; grid-template-columns: 1fr; }
+
+  .how-section { padding: 80px 24px; }
+  .steps-row { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .steps-row::before { display: none; }
+
+  .ccn-banner { padding: 0 24px 80px; }
+  .ccn-card { grid-template-columns: 1fr; gap: 28px; }
+
+  .install-section { padding: 80px 24px; }
+  .install-cards { grid-template-columns: 1fr; }
+
+  .faq-section { padding: 0 24px 80px; }
+
+  footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 24px; }
+  .footer-links { justify-content: center; flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Guard<span>Pay</span></a>
+  <div class="nav-links">
+    <a href="#features">Fonctionnalités</a>
+    <a href="#acheter">Tarif</a>
+    <a href="#faq">FAQ</a>
+    <a href="#acheter" class="nav-cta">Acheter — 5,49 €</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">CCN Sécurité Privée 2025</div>
+      <h1 class="hero-title">
+        Ton salaire,<br>calculé <em>juste</em>.<br>Chaque vacation.
+      </h1>
+      <p class="hero-sub">
+        GuardPay gère tes vacations, calcule automatiquement les majorations nuit / dimanche / férié selon la CCN, et te donne une visibilité complète sur ta paie — pour chaque employeur.
+      </p>
+      <div class="hero-actions">
+        <a href="#acheter" class="btn-hero btn-hero-primary">
+          <span>🛡️</span> Obtenir GuardPay — 5,49 €
+        </a>
+        <a href="#features" class="btn-hero btn-hero-secondary">
+          Voir les fonctionnalités
+        </a>
+      </div>
+      <div class="hero-trust">
+        <span>Achat unique</span>
+        <div class="hero-trust-dot"></div>
+        <span>Fonctionne hors-ligne</span>
+        <div class="hero-trust-dot"></div>
+        <span>Données privées</span>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone-glow-wrap"></div>
+      <div class="phone">
+        <div class="phone-notch"><div class="phone-notch-inner"></div></div>
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div class="phone-logo">Guard<span>Pay</span></div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:#8B949E">Mai 2025</div>
+          </div>
+          <div class="phone-nav">
+            <div class="phone-tab active">📊 Tableau</div>
+            <div class="phone-tab">＋ Saisir</div>
+            <div class="phone-tab">📅 Calendrier</div>
+            <div class="phone-tab">💶 Récap</div>
+          </div>
+          <div class="phone-content">
+            <div class="phone-stat-grid">
+              <div class="phone-stat accent">
+                <div class="phone-stat-label">Salaire estimé</div>
+                <div class="phone-stat-value accent">2 184,70 €</div>
+              </div>
+              <div class="phone-stat">
+                <div class="phone-stat-label">Heures</div>
+                <div class="phone-stat-value">168h</div>
+              </div>
+              <div class="phone-stat">
+                <div class="phone-stat-label">H. majorées</div>
+                <div class="phone-stat-value">44h</div>
+              </div>
+              <div class="phone-stat">
+                <div class="phone-stat-label">Employeurs</div>
+                <div class="phone-stat-value">2</div>
+              </div>
+            </div>
+            <div class="phone-card">
+              <div class="phone-card-title">Dernières vacations</div>
+              <div class="phone-shift">
+                <div class="phone-shift-num">12<small>Lun</small></div>
+                <div class="phone-shift-info">
+                  <div class="phone-shift-hours">21:00 → 07:00 · 10h</div>
+                  <div><span class="phone-shift-type type-n">🌙 Nuit</span></div>
+                </div>
+                <div class="phone-shift-pay">151,30 €</div>
+              </div>
+              <div class="phone-shift">
+                <div class="phone-shift-num">18<small>Dim</small></div>
+                <div class="phone-shift-info">
+                  <div class="phone-shift-hours">08:00 → 20:00 · 12h</div>
+                  <div><span class="phone-shift-type type-d">📅 Dim.</span></div>
+                </div>
+                <div class="phone-shift-pay">183,40 €</div>
+              </div>
+              <div class="phone-shift">
+                <div class="phone-shift-num">21<small>Mer</small></div>
+                <div class="phone-shift-info">
+                  <div class="phone-shift-hours">06:00 → 18:00 · 12h</div>
+                  <div><span class="phone-shift-type type-ok">☀️ Normal</span></div>
+                </div>
+                <div class="phone-shift-pay">144,96 €</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-glow"></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="features-section">
+    <div class="features-header">
+      <div class="section-label">Fonctionnalités</div>
+      <h2 class="section-title">Tout ce dont tu as besoin,<br>rien de superflu.</h2>
+      <p class="section-sub">Conçu par et pour les agents de sécurité. Chaque fonctionnalité répond à un vrai besoin terrain.</p>
+    </div>
+
+    <div class="features-grid">
+
+      <!-- LARGE: Calcul automatique -->
+      <div class="feature-card large">
+        <div class="feature-content">
+          <div class="feature-icon">🧮</div>
+          <h3 class="feature-title">Calcul automatique des majorations</h3>
+          <p class="feature-desc">Saisis tes heures, GuardPay applique instantanément les bons taux : nuit +10%, dimanche ×1.2584, jours fériés +100%, heures sup 10% ou 25%. Conformément à la CCN Sécurité Privée en vigueur.</p>
+        </div>
+        <div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;">
+            <div class="rates-tag">
+              <div class="rates-tag-left">
+                <div class="rates-tag-dot" style="background:#58A6FF"></div>
+                <div><div class="rates-tag-name">Travail de nuit</div><div class="rates-tag-desc">Entre 21h et 6h</div></div>
+              </div>
+              <div class="rates-tag-value">+10%</div>
+            </div>
+            <div class="rates-tag">
+              <div class="rates-tag-left">
+                <div class="rates-tag-dot" style="background:#BC8CFF"></div>
+                <div><div class="rates-tag-name">Dimanche</div><div class="rates-tag-desc">Taux réel bulletin</div></div>
+              </div>
+              <div class="rates-tag-value">+25,84%</div>
+            </div>
+            <div class="rates-tag">
+              <div class="rates-tag-left">
+                <div class="rates-tag-dot" style="background:#FF7B72"></div>
+                <div><div class="rates-tag-name">Jours fériés</div><div class="rates-tag-desc">11 jours légaux</div></div>
+              </div>
+              <div class="rates-tag-value">+100%</div>
+            </div>
+            <div class="rates-tag">
+              <div class="rates-tag-left">
+                <div class="rates-tag-dot" style="background:#FFA657"></div>
+                <div><div class="rates-tag-name">H.Sup 1ère tranche</div><div class="rates-tag-desc">Taux réel ×1.1384</div></div>
+              </div>
+              <div class="rates-tag-value">+13,84%</div>
+            </div>
+            <div class="rates-tag">
+              <div class="rates-tag-left">
+                <div class="rates-tag-dot" style="background:#FFA657;opacity:0.6"></div>
+                <div><div class="rates-tag-name">H.Sup 2ème tranche</div><div class="rates-tag-desc">Taux réel ×1.2572</div></div>
+              </div>
+              <div class="rates-tag-value">+25,72%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Multi-employeurs -->
+      <div class="feature-card blue">
+        <div class="feature-icon">🏢</div>
+        <h3 class="feature-title">Multi-employeurs</h3>
+        <p class="feature-desc">Tu travailles pour plusieurs sociétés de sécurité ? Configure chaque employeur avec son taux horaire. GuardPay sépare les calculs et te donne un récap par employeur.</p>
+      </div>
+
+      <!-- Calendrier -->
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3 class="feature-title">Calendrier des vacations</h3>
+        <p class="feature-desc">Visualise ton mois d'un coup d'œil. Chaque vacation est colorée selon son type. Navigue entre les mois pour suivre ton historique.</p>
+      </div>
+
+      <!-- Récap mensuel -->
+      <div class="feature-card green">
+        <div class="feature-icon">💶</div>
+        <h3 class="feature-title">Récapitulatif mensuel</h3>
+        <p class="feature-desc">Récap complet imprimable pour vérifier ta fiche de paie. Détail heure par heure, prime par prime. Exporte en PDF ou imprime directement.</p>
+      </div>
+
+      <!-- Congés -->
+      <div class="feature-card purple">
+        <div class="feature-icon">✈️</div>
+        <h3 class="feature-title">Suivi des congés payés</h3>
+        <p class="feature-desc">Saisie de tes congés avec calcul automatique de l'indemnité de congés payés selon la règle du dixième ou du maintien de salaire.</p>
+      </div>
+
+      <!-- Ancienneté -->
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3 class="feature-title">Ancienneté & Contingent</h3>
+        <p class="feature-desc">Suivi de ta prime d'ancienneté et du contingent annuel d'heures supplémentaires (394h/an CCN). Repos compensateurs calculés automatiquement.</p>
+      </div>
+
+      <!-- Hors-ligne -->
+      <div class="feature-card red">
+        <div class="feature-icon">📴</div>
+        <h3 class="feature-title">100% hors-ligne</h3>
+        <p class="feature-desc">GuardPay est une PWA qui fonctionne sans connexion internet. Tes données restent sur ton téléphone, personne d'autre n'y a accès.</p>
+      </div>
+
+      <!-- Droits au repos -->
+      <div class="feature-card">
+        <div class="feature-icon">⚖️</div>
+        <h3 class="feature-title">Alertes droits au repos</h3>
+        <p class="feature-desc">Sois alerté si tu approches des limites légales de temps de travail. Connais tes droits, protège ta santé.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div class="how-inner">
+    <div class="how-header">
+      <div class="section-label">Comment ça marche</div>
+      <h2 class="section-title">Opérationnel en 2 minutes</h2>
+      <p class="section-sub">Pas de compte à créer, pas de configuration complexe. Tu ouvres, tu saisis, tu vois ton salaire.</p>
+    </div>
+
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3 class="step-title">Installe l'app</h3>
+        <p class="step-desc">Ajoute GuardPay à ton écran d'accueil depuis ton navigateur. Aucun téléchargement sur l'App Store ou le Play Store nécessaire.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3 class="step-title">Configure ton employeur</h3>
+        <p class="step-desc">Saisis le nom de ta société et ton taux horaire brut. Répète l'opération si tu as plusieurs employeurs.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3 class="step-title">Saisis tes vacations</h3>
+        <p class="step-desc">Après chaque shift, renseigne la date, les heures et le type (nuit, dimanche, férié…). La paie s'affiche immédiatement.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3 class="step-title">Vérifie ta fiche de paie</h3>
+        <p class="step-desc">En fin de mois, compare le récapitulatif GuardPay avec ton bulletin. Tu sais exactement ce que tu dois toucher.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CCN BANNER -->
+<section>
+  <div class="ccn-banner" style="padding-top:80px;">
+    <div class="ccn-card">
+      <div>
+        <h2 class="ccn-title">Conforme à la CCN Sécurité Privée</h2>
+        <p class="ccn-sub">Les taux de majoration intégrés dans GuardPay sont calibrés sur les bulletins de paie réels des agents de sécurité. Pas d'approximation — les bons chiffres, les vraies règles de la Convention Collective Nationale.</p>
+      </div>
+      <div class="ccn-badge">
+        <span>🛡️</span>
+        Taux vérifiés<br>bulletin par bulletin
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHETER -->
+<section id="acheter">
+  <div class="install-section">
+    <div class="section-label">Tarif</div>
+    <h2 class="section-title">Un seul achat, pour toujours.</h2>
+    <p class="section-sub">Pas d'abonnement, pas de renouvellement. Tu paies une fois et GuardPay t'appartient définitivement.</p>
+
+    <!-- PRICING CARD -->
+    <div style="max-width:420px;margin:0 auto 60px;text-align:left;">
+      <div style="background:var(--surface);border:1.5px solid rgba(240,165,0,0.35);border-radius:20px;padding:36px;position:relative;overflow:hidden;box-shadow:0 0 60px rgba(240,165,0,0.08);">
+        <!-- glow top -->
+        <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(240,165,0,0.6),transparent);"></div>
+        <!-- badge -->
+        <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(240,165,0,0.12);border:1px solid rgba(240,165,0,0.3);border-radius:100px;padding:4px 12px;font-size:0.72rem;font-weight:700;color:var(--accent);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:24px;">
+          ⚡ Achat unique — à vie
+        </div>
+        <!-- prix -->
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px;">
+          <span style="font-family:'Syne',sans-serif;font-weight:800;font-size:3.5rem;color:var(--accent);letter-spacing:-0.04em;line-height:1;">5,49 €</span>
+          <span style="color:var(--muted);font-size:0.9rem;">une seule fois</span>
+        </div>
+        <div style="color:var(--muted);font-size:0.82rem;margin-bottom:28px;">Paiement sécurisé par carte bancaire via Stripe</div>
+        <!-- features incluses -->
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px;">
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;">
+            <span style="color:var(--success);font-size:1rem;">✓</span> Calcul automatique CCN Sécurité Privée
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;">
+            <span style="color:var(--success);font-size:1rem;">✓</span> Multi-employeurs (jusqu'à 4)
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;">
+            <span style="color:var(--success);font-size:1rem;">✓</span> Calendrier + récapitulatif mensuel
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;">
+            <span style="color:var(--success);font-size:1rem;">✓</span> Congés, ancienneté, heures sup
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;">
+            <span style="color:var(--success);font-size:1rem;">✓</span> Fonctionne 100% hors-ligne
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.88rem;">
+            <span style="color:var(--success);font-size:1rem;">✓</span> Mises à jour incluses
+          </div>
+        </div>
+        <!-- CTA -->
+        <a href="LIEN_STRIPE_ICI" class="install-dl-btn" style="width:100%;justify-content:center;font-size:1rem;padding:16px 24px;">
+          <span>🔒</span> Acheter GuardPay — 5,49 €
+        </a>
+        <div style="text-align:center;margin-top:14px;font-size:0.78rem;color:var(--muted);">
+          Paiement sécurisé · Livraison immédiate par email
+        </div>
+      </div>
+    </div>
+
+    <!-- INSTALL SECTION -->
+    <div class="section-label" id="install" style="padding-top:20px;">Après l'achat — Installation</div>
+    <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;letter-spacing:-0.02em;margin-bottom:12px;">Installe l'app sur ton téléphone</h3>
+    <p style="color:var(--muted);font-size:0.95rem;margin:0 auto 40px;max-width:520px;">Tu reçois le fichier par email. Ouvre-le dans ton navigateur et ajoute-le à ton écran d'accueil en 30 secondes.</p>
+
+    <div class="install-cards">
+      <!-- Android -->
+      <div class="install-card">
+        <div class="install-os">
+          <div class="install-os-icon">🤖</div>
+          <div>
+            <div class="install-os-name">Android</div>
+            <div class="install-os-sub">Chrome recommandé</div>
+          </div>
+        </div>
+        <ul class="install-steps">
+          <li><span class="install-step-n">1</span> Ouvre le fichier reçu par email dans Chrome</li>
+          <li><span class="install-step-n">2</span> Appuie sur le menu ⋮ (3 points en haut à droite)</li>
+          <li><span class="install-step-n">3</span> Sélectionne "Ajouter à l'écran d'accueil"</li>
+          <li><span class="install-step-n">4</span> Confirme — l'icône apparaît sur ton écran</li>
+        </ul>
+      </div>
+
+      <!-- iPhone -->
+      <div class="install-card">
+        <div class="install-os">
+          <div class="install-os-icon">🍎</div>
+          <div>
+            <div class="install-os-name">iPhone / iPad</div>
+            <div class="install-os-sub">Safari obligatoire</div>
+          </div>
+        </div>
+        <ul class="install-steps">
+          <li><span class="install-step-n">1</span> Ouvre le fichier reçu par email dans Safari</li>
+          <li><span class="install-step-n">2</span> Appuie sur l'icône Partager <span style="color:var(--accent)">⬆</span></li>
+          <li><span class="install-step-n">3</span> Sélectionne "Sur l'écran d'accueil"</li>
+          <li><span class="install-step-n">4</span> Appuie sur "Ajouter" — c'est installé !</li>
+        </ul>
+      </div>
+
+      <!-- PC -->
+      <div class="install-card">
+        <div class="install-os">
+          <div class="install-os-icon">💻</div>
+          <div>
+            <div class="install-os-name">Ordinateur</div>
+            <div class="install-os-sub">Chrome / Edge</div>
+          </div>
+        </div>
+        <ul class="install-steps">
+          <li><span class="install-step-n">1</span> Ouvre le fichier reçu par email dans Chrome ou Edge</li>
+          <li><span class="install-step-n">2</span> Clique sur l'icône d'installation 🖥 dans la barre d'adresse</li>
+          <li><span class="install-step-n">3</span> Clique sur "Installer"</li>
+          <li><span class="install-step-n">4</span> GuardPay s'ouvre comme une appli native</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-section">
+    <div class="faq-header">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Questions fréquentes</h2>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Combien coûte GuardPay ?</div>
+      <div class="faq-a"><strong>5,49 € une seule fois</strong>, sans abonnement ni frais cachés. Tu paies une fois et l'application t'appartient pour toujours, mises à jour incluses.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Comment je reçois l'application après l'achat ?</div>
+      <div class="faq-a">Immédiatement après le paiement, tu reçois un email avec le fichier GuardPay en pièce jointe. Tu l'ouvres dans ton navigateur et tu l'installes sur ton téléphone en moins d'une minute.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Mes données sont-elles privées ?</div>
+      <div class="faq-a">Absolument. GuardPay fonctionne entièrement sur ton téléphone. <strong>Aucune donnée n'est envoyée sur un serveur</strong>. Tout est stocké localement sur ton appareil.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Les taux correspondent-ils à ma fiche de paie ?</div>
+      <div class="faq-a">Les taux sont calibrés sur des bulletins de paie réels d'agents en CDI sous CCN Sécurité Privée. <strong>Les majorations correspondent exactement</strong> à ce qui est appliqué. Tu peux saisir ton propre taux horaire dans les paramètres.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Puis-je l'utiliser si je travaille pour plusieurs employeurs ?</div>
+      <div class="faq-a">Oui ! GuardPay gère <strong>jusqu'à 4 employeurs simultanément</strong>. Chaque employeur a son propre taux horaire, et les récapitulatifs sont séparés par employeur.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Que se passe-t-il si je change de téléphone ?</div>
+      <div class="faq-a">Utilise la fonction <strong>"Exporter mes données (JSON)"</strong> dans les paramètres avant de changer de téléphone. Tu pourras réimporter tes données sur le nouveau appareil.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Fonctionne-t-il sans internet ?</div>
+      <div class="faq-a">Oui. Une fois installé, GuardPay fonctionne <strong>intégralement hors-ligne</strong>. Utile en poste, dans des zones sans réseau, ou pour préserver ta batterie.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Guard<span>Pay</span></div>
+  <div class="footer-copy">© 2025 GuardPay · CCN Sécurité Privée · Fait pour les agents de terrain</div>
+  <div class="footer-links">
+    <a href="#features">Fonctionnalités</a>
+    <a href="#acheter">Tarif</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</footer>
+
+<script>
+// Smooth reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.feature-card, .step, .install-card, .faq-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(30px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+
+// Staggered animation for grids
+document.querySelectorAll('.features-grid, .steps-row, .install-cards').forEach(grid => {
+  const children = grid.querySelectorAll('.feature-card, .step, .install-card');
+  children.forEach((child, i) => {
+    child.style.transitionDelay = `${i * 0.07}s`;
+  });
+});
+</script>
+
+</body>
+</html>
