@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GuardPay — Guide d'utilisation</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0A0E17;
+  --gold: #C9A84C;
+  --gold-dim: rgba(201,168,76,0.1);
+  --steel: #1C2534;
+  --line: #232E42;
+  --white: #F0F4F8;
+  --muted: #7C8FA6;
+  --success: #4CAF7C;
+  --danger: #E05555;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* ── COUVERTURE ── */
+.cover {
+  min-height: 100vh;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 60px;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+.cover::before {
+  content: 'GUIDE';
+  position: absolute;
+  right: -40px;
+  bottom: -40px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 20rem;
+  color: rgba(201,168,76,0.04);
+  letter-spacing: -0.05em;
+  pointer-events: none;
+}
+
+.cover-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(201,168,76,0.4);
+  padding: 6px 16px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 40px;
+  width: fit-content;
+}
+
+.cover-logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 5rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.cover-logo span { color: var(--gold); }
+
+.cover-subtitle {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 400;
+  font-size: 1.8rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+}
+
+.cover-line {
+  width: 80px;
+  height: 3px;
+  background: var(--gold);
+  margin-bottom: 40px;
+}
+
+.cover-desc {
+  font-size: 1.1rem;
+  color: var(--muted);
+  font-weight: 300;
+  max-width: 500px;
+  line-height: 1.7;
+  margin-bottom: 60px;
+}
+
+.cover-version {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+
+/* ── TABLE DES MATIÈRES ── */
+.toc {
+  padding: 80px 60px;
+  page-break-after: always;
+}
+
+.toc-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.toc-line {
+  width: 60px;
+  height: 3px;
+  background: var(--gold);
+  margin-bottom: 48px;
+}
+
+.toc-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--white);
+  transition: color 0.2s;
+}
+
+.toc-item:hover { color: var(--gold); }
+
+.toc-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  min-width: 40px;
+}
+
+.toc-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.toc-dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--line);
+  margin: 0 12px;
+}
+
+.toc-page {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* ── CHAPITRES ── */
+.chapter {
+  padding: 80px 60px;
+  page-break-before: always;
+}
+
+.chapter-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.chapter-num::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.chapter-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 3rem;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.chapter-line {
+  width: 60px;
+  height: 3px;
+  background: var(--gold);
+  margin-bottom: 48px;
+}
+
+/* ── ÉTAPES ── */
+.step-block {
+  background: var(--steel);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--gold);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.step-badge {
+  width: 36px;
+  height: 36px;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--ink);
+  flex-shrink: 0;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.step-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.step-desc {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.step-desc strong { color: var(--white); font-weight: 600; }
+.step-desc .gold { color: var(--gold); font-weight: 600; }
+
+/* ── INFOS ── */
+.info-box {
+  background: var(--gold-dim);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 20px 24px;
+  margin: 24px 0;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.info-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+.info-text { font-size: 0.88rem; line-height: 1.65; color: var(--white); font-weight: 300; }
+.info-text strong { color: var(--gold); font-weight: 600; }
+
+.warning-box {
+  background: rgba(224,85,85,0.08);
+  border: 1px solid rgba(224,85,85,0.3);
+  padding: 20px 24px;
+  margin: 24px 0;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.success-box {
+  background: rgba(76,175,124,0.08);
+  border: 1px solid rgba(76,175,124,0.3);
+  padding: 20px 24px;
+  margin: 24px 0;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+/* ── SCREENSHOT MOCKUP ── */
+.mockup {
+  background: #0D1117;
+  border: 1px solid #2A3441;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 24px 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+}
+
+.mockup-header {
+  background: #161B22;
+  border-radius: 8px 8px 0 0;
+  padding: 10px 14px;
+  margin: -16px -16px 16px;
+  border-bottom: 1px solid #30363D;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--gold);
+  letter-spacing: 0.06em;
+}
+
+.mockup-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #1A2030;
+  font-size: 0.78rem;
+}
+.mockup-row:last-child { border-bottom: none; }
+.mockup-label { color: #8B949E; }
+.mockup-value { color: var(--gold); font-weight: 500; }
+.mockup-value.white { color: var(--white); }
+
+.pill {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.pill-item {
+  background: #21262D;
+  border: 1px solid #30363D;
+  border-radius: 100px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  color: #8B949E;
+}
+
+.pill-item.active {
+  background: rgba(201,168,76,0.15);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ── TABLEAU RECAP ── */
+.recap-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.85rem;
+}
+
+.recap-table th {
+  background: var(--steel);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--gold);
+}
+
+.recap-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.recap-table td.value {
+  color: var(--success);
+  font-family: 'DM Mono', monospace;
+  text-align: right;
+}
+
+.recap-table tr:last-child td {
+  border-bottom: none;
+  color: var(--white);
+  font-weight: 600;
+  background: rgba(201,168,76,0.05);
+}
+
+.recap-table tr:last-child td.value {
+  color: var(--gold);
+}
+
+/* ── GLOSSAIRE ── */
+.glossaire-item {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.glossaire-term {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.glossaire-def {
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* ── SÉPARATEUR ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin: 48px 0;
+}
+
+/* ── SECTION TITRE ── */
+.section-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 40px 0 16px;
+}
+
+h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+
+p {
+  font-size: 0.92rem;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+p strong { color: var(--white); font-weight: 600; }
+p .gold { color: var(--gold); font-weight: 600; }
+
+/* ── PRINT ── */
+@media print {
+  body { background: white; color: #111; }
+  .cover, .toc, .chapter { background: white; }
+  .step-block { background: #f5f5f5; border-color: #ddd; border-left-color: #C9A84C; }
+  .mockup { background: #1a1a2e; }
+  .chapter-title, .toc-title, .cover-logo, .step-title, .toc-name { color: #111; }
+  .cover-logo span, .chapter-num, .toc-num, .step-badge { color: #C9A84C; }
+  .step-badge { background: #C9A84C; color: white; }
+  .muted, .step-desc, .info-text, .glossaire-def, p, .step-desc { color: #444; }
+  .info-box { background: #fff8e1; border-color: #C9A84C; }
+  .success-box { background: #e8f5e9; border-color: #4CAF7C; }
+  .warning-box { background: #fdecea; border-color: #E05555; }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 600px) {
+  .cover, .toc, .chapter { padding: 40px 24px; }
+  .cover-logo { font-size: 3rem; }
+  .chapter-title { font-size: 2rem; }
+  .glossaire-item { grid-template-columns: 1fr; gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ COUVERTURE ═══ -->
+<div class="cover">
+  <div class="cover-badge">📖 Guide officiel</div>
+  <div class="cover-logo">Guard<span>Pay</span></div>
+  <div class="cover-subtitle">Guide d'utilisation complet</div>
+  <div class="cover-line"></div>
+  <p class="cover-desc">
+    Ce guide est destiné aux agents de sécurité qui utilisent GuardPay pour la première fois. Il explique pas à pas comment installer l'application, configurer son compte et saisir ses vacations.
+  </p>
+  <div class="cover-version">Version 1.0 · Mai 2025 · CCN Prévention et Sécurité</div>
+</div>
+
+<!-- ═══ TABLE DES MATIÈRES ═══ -->
+<div class="toc">
+  <div class="toc-title">Table des matières</div>
+  <div class="toc-line"></div>
+
+  <a href="#ch1" class="toc-item">
+    <span class="toc-num">01</span>
+    <span class="toc-name">Qu'est-ce que GuardPay ?</span>
+    <span class="toc-dots"></span>
+    <span class="toc-page">p. 3</span>
+  </a>
+  <a href="#ch2" class="toc-item">
+    <span class="toc-num">02</span>
+    <span class="toc-name">Installer l'application sur votre téléphone</span>
+    <span class="toc-dots"></span>
+    <span class="toc-page">p. 4</span>
+  </a>
+  <a href="#ch3" class="toc-item">
+    <span class="toc-num">03</span>
+    <span class="toc-name">Configurer votre employeur</span>
+    <span class="toc-dots"></span>
+    <span class="toc-page">p. 5</span>
+  </a>
+  <a href="#ch4" class="toc-item">
+    <span class="toc-num">04</span>
+    <span class="toc-name">Saisir une vacation</span>
+    <span class="toc-dots"></span>
+    <span class="toc-page">p. 6</span>
+  </a>
+  <a href="#ch5" class="toc-item">
+    <span class="toc-num">05</span>
+    <span class="toc-name">Saisir les congés payés</span>
+    <span class="toc-dots"></span>
+    <span class="toc-page">p. 7</span>
+  </a>
+  <a href="#ch6" class="toc-item">
+    <span class="toc-num">06</span>
+    <span class="toc-name">Saisir les heures supplémentaires</span>
+    <span class="toc-dots"></span>
+    <span class="toc-page">p. 8</span>
+  </a>
+  <a href="#ch7" class="toc-item">
+    <span class="toc-num">07</span>
+    <span class="toc-name">Lire le récapitulatif mensuel</span>
+    <span class="toc-dots"></span>
+    <span class="toc-page">p. 9</span>
+  </a>
+  <a href="#ch8" class="toc-item">
+    <span class="toc-num">08</span>
+    <span class="toc-name">Vérifier sa fiche de paie</span>
+    <span class="toc-dots"></span>
+    <span class="toc-page">p. 10</span>
+  </a>
+  <a href="#ch9" class="toc-item">
+    <span class="toc-num">09</span>
+    <span class="toc-name">Glossaire</span>
+    <span class="toc-dots"></span>
+    <span class="toc-page">p. 11</span>
+  </a>
+</div>
+
+<!-- ═══ CHAPITRE 1 ═══ -->
+<div class="chapter" id="ch1">
+  <div class="chapter-num">Chapitre 01</div>
+  <h1 class="chapter-title">Qu'est-ce que GuardPay ?</h1>
+  <div class="chapter-line"></div>
+
+  <p>GuardPay est une application conçue spécialement pour les <strong>agents de sécurité privée</strong>. Elle vous permet de calculer votre salaire en temps réel, vacation par vacation, et de vérifier que votre fiche de paie est correcte avant même de la recevoir.</p>
+
+  <div class="info-box">
+    <span class="info-icon">💡</span>
+    <div class="info-text"><strong>Pas besoin d'être informaticien !</strong> GuardPay est conçu pour être aussi simple qu'une calculatrice. Vous saisissez vos heures, l'application fait tout le reste.</div>
+  </div>
+
+  <h3>Ce que GuardPay calcule automatiquement</h3>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-badge">✓</span>
+      <span class="step-title">Majoration nuit +10%</span>
+    </div>
+    <p class="step-desc">Toutes les heures travaillées entre <span class="gold">21h00 et 06h00</span> sont automatiquement majorées de 10%.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-badge">✓</span>
+      <span class="step-title">Majoration dimanche +10%</span>
+    </div>
+    <p class="step-desc">Les vacations du dimanche bénéficient d'une majoration de 10% sur toutes les heures.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-badge">✓</span>
+      <span class="step-title">Jours fériés +100%</span>
+    </div>
+    <p class="step-desc">Les 11 jours fériés légaux sont payés double. GuardPay les identifie automatiquement.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-badge">✓</span>
+      <span class="step-title">Prime habillage & cotisations</span>
+    </div>
+    <p class="step-desc">La prime d'habillage (0,131 €/h) est calculée automatiquement. Les cotisations salariales sont déduites pour estimer votre net avant impôt.</p>
+  </div>
+</div>
+
+<!-- ═══ CHAPITRE 2 ═══ -->
+<div class="chapter" id="ch2">
+  <div class="chapter-num">Chapitre 02</div>
+  <h1 class="chapter-title">Installer l'application</h1>
+  <div class="chapter-line"></div>
+
+  <p>GuardPay s'installe directement sur votre téléphone depuis votre navigateur internet. <strong>Il n'y a rien à télécharger sur l'App Store ou le Play Store.</strong></p>
+
+  <div class="info-box">
+    <span class="info-icon">📧</span>
+    <div class="info-text">Après votre achat, vous recevez un email avec le fichier GuardPay en pièce jointe. C'est ce fichier qu'il faut ouvrir pour installer l'application.</div>
+  </div>
+
+  <div class="section-label">Sur Android (téléphone Samsung, Huawei, Xiaomi...)</div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">1</span><span class="step-title">Ouvrir l'email</span></div>
+    <p class="step-desc">Ouvrez votre email et trouvez le message de GuardPay. Appuyez sur la pièce jointe <strong>securite-rh.html</strong> pour la télécharger.</p>
+  </div>
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">2</span><span class="step-title">Ouvrir avec Chrome</span></div>
+    <p class="step-desc">Une fois téléchargé, ouvrez le fichier avec <strong>Chrome</strong> (le navigateur avec l'icône ronde rouge, verte, jaune et bleue).</p>
+  </div>
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">3</span><span class="step-title">Ajouter à l'écran d'accueil</span></div>
+    <p class="step-desc">Dans Chrome, appuyez sur les <span class="gold">⋮ (3 points)</span> en haut à droite de l'écran. Puis appuyez sur <strong>"Ajouter à l'écran d'accueil"</strong>. Confirmez en appuyant sur <strong>"Ajouter"</strong>.</p>
+  </div>
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">4</span><span class="step-title">L'icône apparaît</span></div>
+    <p class="step-desc">L'icône GuardPay apparaît sur votre écran d'accueil, comme une vraie application. Appuyez dessus pour l'ouvrir.</p>
+  </div>
+
+  <div class="section-label">Sur iPhone ou iPad</div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">1</span><span class="step-title">Ouvrir l'email</span></div>
+    <p class="step-desc">Ouvrez votre email et téléchargez la pièce jointe <strong>securite-rh.html</strong>.</p>
+  </div>
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">2</span><span class="step-title">Ouvrir avec Safari</span></div>
+    <p class="step-desc">Sur iPhone, vous devez obligatoirement utiliser <strong>Safari</strong> (l'icône avec une boussole bleue). Appuyez sur le fichier et choisissez "Ouvrir dans Safari".</p>
+  </div>
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">3</span><span class="step-title">Appuyer sur Partager</span></div>
+    <p class="step-desc">En bas de Safari, appuyez sur l'icône <span class="gold">⬆ Partager</span> (un carré avec une flèche vers le haut).</p>
+  </div>
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">4</span><span class="step-title">Sur l'écran d'accueil</span></div>
+    <p class="step-desc">Dans la liste qui apparaît, faites défiler vers le bas et appuyez sur <strong>"Sur l'écran d'accueil"</strong>. Puis appuyez sur <strong>"Ajouter"</strong>.</p>
+  </div>
+
+  <div class="success-box">
+    <span class="info-icon">✅</span>
+    <div class="info-text"><strong>C'est installé !</strong> GuardPay fonctionne maintenant sans connexion internet. Vos données sont sauvegardées automatiquement sur votre téléphone.</div>
+  </div>
+</div>
+
+<!-- ═══ CHAPITRE 3 ═══ -->
+<div class="chapter" id="ch3">
+  <div class="chapter-num">Chapitre 03</div>
+  <h1 class="chapter-title">Configurer votre employeur</h1>
+  <div class="chapter-line"></div>
+
+  <p>Avant de saisir vos premières vacations, vous devez indiquer à GuardPay le nom de votre société et votre taux horaire. Ces informations se trouvent sur votre fiche de paie.</p>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">1</span><span class="step-title">Aller dans Paramètres</span></div>
+    <p class="step-desc">Au bas de l'application, appuyez sur l'onglet <span class="gold">⚙ Paramètres</span> (la roue dentée à droite).</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">2</span><span class="step-title">Ajouter un employeur</span></div>
+    <p class="step-desc">Dans la section <strong>"Mes employeurs"</strong>, appuyez sur le bouton <span class="gold">+ Ajouter un employeur</span>.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">3</span><span class="step-title">Remplir les informations</span></div>
+    <p class="step-desc">Saisissez :<br>
+    • <strong>Nom de la société</strong> : ex. "DISTRI SECURITE"<br>
+    • <strong>Taux horaire brut</strong> : votre taux horaire indiqué sur votre fiche de paie (ex. 12,5835)</p>
+  </div>
+
+  <div class="info-box">
+    <span class="info-icon">🔍</span>
+    <div class="info-text"><strong>Où trouver votre taux horaire ?</strong> Sur votre bulletin de paie, regardez la ligne "Salaire de base". Divisez le montant par le nombre d'heures (ex. 1908,54 ÷ 151,67 = <strong>12,5835 €/h</strong>).</div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">4</span><span class="step-title">Enregistrer</span></div>
+    <p class="step-desc">Appuyez sur <strong>"Enregistrer"</strong>. Votre employeur est maintenant configuré. Vous pouvez en ajouter plusieurs si vous travaillez pour plusieurs sociétés.</p>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">⚙ Paramètres — Employeurs</div>
+    <div class="mockup-row">
+      <span class="mockup-label">Société</span>
+      <span class="mockup-value white">DISTRI SECURITE</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">Taux horaire</span>
+      <span class="mockup-value">12,5835 €/h</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">Statut</span>
+      <span class="mockup-value">✓ Configuré</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CHAPITRE 4 ═══ -->
+<div class="chapter" id="ch4">
+  <div class="chapter-num">Chapitre 04</div>
+  <h1 class="chapter-title">Saisir une vacation</h1>
+  <div class="chapter-line"></div>
+
+  <p>Après chaque poste de travail, prenez 1 minute pour saisir votre vacation dans GuardPay. Le calcul s'affiche immédiatement.</p>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">1</span><span class="step-title">Appuyer sur + Saisir</span></div>
+    <p class="step-desc">En bas de l'écran, appuyez sur l'onglet <span class="gold">+ Saisir</span>.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">2</span><span class="step-title">Choisir votre employeur</span></div>
+    <p class="step-desc">Si vous avez plusieurs employeurs, sélectionnez celui pour qui vous avez travaillé ce jour-là.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">3</span><span class="step-title">Indiquer la date</span></div>
+    <p class="step-desc">Appuyez sur le champ <strong>Date</strong> et sélectionnez le jour de votre vacation dans le calendrier.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">4</span><span class="step-title">Indiquer les horaires</span></div>
+    <p class="step-desc">Indiquez l'heure de début et l'heure de fin de votre poste.<br>
+    Exemple : <span class="gold">07h00 → 19h00</span> pour une vacation de 12h de jour.<br>
+    Exemple : <span class="gold">19h00 → 07h00</span> pour une vacation de nuit.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">5</span><span class="step-title">Choisir le type de vacation</span></div>
+    <p class="step-desc">Appuyez sur le bon bouton selon votre type de poste :</p>
+    <div class="pill">
+      <span class="pill-item active">☀️ Normal</span>
+      <span class="pill-item">🌙 Nuit</span>
+      <span class="pill-item">📅 Dimanche</span>
+      <span class="pill-item">🎉 Férié</span>
+    </div>
+    <p class="step-desc" style="margin-top:10px;">
+      • <strong>Normal</strong> : poste de jour, du lundi au samedi<br>
+      • <strong>Nuit</strong> : poste incluant des heures entre 21h et 6h<br>
+      • <strong>Dimanche</strong> : poste effectué un dimanche<br>
+      • <strong>Férié</strong> : poste effectué un jour férié (1er mai, 25 décembre...)
+    </p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">6</span><span class="step-title">Ajouter le panier (si applicable)</span></div>
+    <p class="step-desc">Si vous avez droit à une indemnité panier pour ce poste, indiquez le montant dans le champ <strong>🍽 Panier</strong> (ex. 4,48 €).</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">7</span><span class="step-title">Valider</span></div>
+    <p class="step-desc">Appuyez sur <span class="gold">Enregistrer la vacation</span>. La vacation apparaît dans votre tableau de bord et sur le calendrier.</p>
+  </div>
+
+  <div class="warning-box">
+    <span class="info-icon">⚠️</span>
+    <div class="info-text"><strong>Important :</strong> Si vous travaillez un dimanche de nuit (ex. 20h dimanche → 8h lundi), saisissez-la en type <strong>"Dimanche"</strong>. GuardPay calculera automatiquement les heures de nuit en plus.</div>
+  </div>
+</div>
+
+<!-- ═══ CHAPITRE 5 ═══ -->
+<div class="chapter" id="ch5">
+  <div class="chapter-num">Chapitre 05</div>
+  <h1 class="chapter-title">Saisir les congés payés</h1>
+  <div class="chapter-line"></div>
+
+  <p>Les congés payés se saisissent différemment des vacations car ils ne correspondent pas à des heures travaillées mais à des jours d'absence indemnisés.</p>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">1</span><span class="step-title">Aller dans + Saisir</span></div>
+    <p class="step-desc">Appuyez sur l'onglet <span class="gold">+ Saisir</span> en bas de l'écran.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">2</span><span class="step-title">Choisir le type "Congé"</span></div>
+    <p class="step-desc">Dans les boutons de type, appuyez sur <span class="gold">✈️ Congé</span>. Les champs d'horaires disparaissent — c'est normal.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">3</span><span class="step-title">Indiquer la date de début</span></div>
+    <p class="step-desc">Indiquez le <strong>premier jour</strong> de votre période de congé.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">4</span><span class="step-title">Indiquer le nombre de jours</span></div>
+    <p class="step-desc">Indiquez le nombre de jours de congé <strong>tel qu'indiqué sur votre bulletin de paie</strong>. Attention : le dimanche ne compte pas dans les jours de congé.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">5</span><span class="step-title">Indiquer le taux journalier</span></div>
+    <p class="step-desc">Dans le champ <strong>Taux journalier</strong>, saisissez le montant par jour indiqué sur votre bulletin (ex. <span class="gold">73,4054</span>).</p>
+  </div>
+
+  <div class="info-box">
+    <span class="info-icon">🔍</span>
+    <div class="info-text"><strong>Où trouver le taux journalier ?</strong> Sur votre bulletin de paie, regardez la ligne "Congés payés pris". Le taux journalier est indiqué dans la colonne "Taux" (ex. 73,4054 €/jour).</div>
+  </div>
+
+  <h3>Mettre à jour les soldes N et N-1</h3>
+  <p>Dans l'onglet <strong>Tableau</strong>, la carte "Congés payés" vous permet de saisir vos soldes de congés directement depuis votre bulletin :</p>
+  <div class="mockup">
+    <div class="mockup-header">📋 Solde bulletin de paie</div>
+    <div class="mockup-row">
+      <span class="mockup-label">Congés N (année en cours)</span>
+      <span class="mockup-value">27,50 jours</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">Congés N-1 (à solder avant mai)</span>
+      <span class="mockup-value">0 jours</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">Solde restant</span>
+      <span class="mockup-value white">27,50 jours</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CHAPITRE 6 ═══ -->
+<div class="chapter" id="ch6">
+  <div class="chapter-num">Chapitre 06</div>
+  <h1 class="chapter-title">Saisir les heures supplémentaires</h1>
+  <div class="chapter-line"></div>
+
+  <p>Les heures supplémentaires se saisissent <strong>en dernier</strong>, une fois que vous avez :</p>
+
+  <div class="step-block">
+    <div class="step-header">
+      <span class="step-badge">✓</span>
+      <span class="step-title">Checklist avant de saisir les heures sup</span>
+    </div>
+    <p class="step-desc">
+      ✅ Toutes vos vacations du mois sont saisies<br>
+      ✅ Vos congés payés sont saisis (si applicable)<br>
+      ✅ Vous avez reçu votre <span class="gold">bulletin de paie</span> du mois<br>
+      ✅ Vous avez repéré les lignes "Heures supplémentaires" sur votre bulletin
+    </p>
+  </div>
+
+  <div class="warning-box">
+    <span class="info-icon">⚠️</span>
+    <div class="info-text"><strong>Important :</strong> Ne saisissez PAS les heures sup avant d'avoir votre bulletin. GuardPay ne peut pas calculer automatiquement le nombre exact d'heures sup car votre employeur utilise sa propre méthode de calcul. Il faut recopier les chiffres depuis votre bulletin.</div>
+  </div>
+
+  <h3>Étape 1 — Repérer les heures sup sur votre bulletin</h3>
+
+  <p>Sur votre bulletin de paie, cherchez ces deux lignes :</p>
+
+  <div class="mockup">
+    <div class="mockup-header">📄 Extrait bulletin de paie</div>
+    <div class="mockup-row">
+      <span class="mockup-label">Heures supplémentaires 10%</span>
+      <span class="mockup-value white">18,33h — 13,8419 €/h — 253,72 €</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">Heures supplémentaires 25%</span>
+      <span class="mockup-value white">9,67h — 15,7294 €/h — 152,10 €</span>
+    </div>
+  </div>
+
+  <p>Notez bien le <strong>nombre d'heures</strong> de chaque ligne (ici 18,33 et 9,67).</p>
+
+  <div class="info-box">
+    <span class="info-icon">💡</span>
+    <div class="info-text"><strong>Certains mois, il peut n'y avoir aucune heure sup</strong> si vous n'avez pas dépassé les 35h par semaine. Dans ce cas, ne saisissez rien dans GuardPay pour les heures sup.</div>
+  </div>
+
+  <h3>Étape 2 — Saisir les H.Sup 10%</h3>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">1</span><span class="step-title">Aller dans + Saisir</span></div>
+    <p class="step-desc">Appuyez sur l'onglet <span class="gold">+ Saisir</span> en bas de l'écran.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">2</span><span class="step-title">Appuyer sur ⏱ H.Sup 10%</span></div>
+    <p class="step-desc">Dans les boutons de type, appuyez sur <span class="gold">⏱ H.Sup 10%</span>. Les champs de date et d'horaires disparaissent automatiquement — c'est normal, les heures sup n'ont pas de date précise.</p>
+    <div class="pill">
+      <span class="pill-item">☀️ Normal</span>
+      <span class="pill-item">🌙 Nuit</span>
+      <span class="pill-item">📅 Dimanche</span>
+      <span class="pill-item">🎉 Férié</span>
+      <span class="pill-item active">⏱ H.Sup 10%</span>
+      <span class="pill-item">⏱⏱ H.Sup 25%</span>
+      <span class="pill-item">✈️ Congé</span>
+    </div>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">3</span><span class="step-title">Saisir le nombre d'heures</span></div>
+    <p class="step-desc">Dans le champ <strong>"Nombre d'heures supplémentaires"</strong>, tapez le nombre indiqué sur votre bulletin.<br><br>
+    Exemple : si votre bulletin indique <strong>18,33h</strong>, tapez <span class="gold">18.33</span> (avec un point, pas une virgule).<br><br>
+    Le calcul s'affiche immédiatement en dessous : <strong>18,33h × 13,8419 € = 253,72 €</strong></p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">4</span><span class="step-title">Valider</span></div>
+    <p class="step-desc">Appuyez sur <span class="gold">Enregistrer</span>. Un message de confirmation s'affiche avec le montant calculé.</p>
+  </div>
+
+  <h3>Étape 3 — Saisir les H.Sup 25%</h3>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">1</span><span class="step-title">Appuyer sur ⏱⏱ H.Sup 25%</span></div>
+    <p class="step-desc">Dans les boutons de type, appuyez maintenant sur <span class="gold">⏱⏱ H.Sup 25%</span>.</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">2</span><span class="step-title">Saisir le nombre d'heures</span></div>
+    <p class="step-desc">Tapez le nombre d'heures indiqué sur votre bulletin pour les heures sup à 25%.<br><br>
+    Exemple : si votre bulletin indique <strong>9,67h</strong>, tapez <span class="gold">9.67</span>.<br><br>
+    Le calcul s'affiche : <strong>9,67h × 15,7294 € = 152,10 €</strong></p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">3</span><span class="step-title">Valider</span></div>
+    <p class="step-desc">Appuyez sur <span class="gold">Enregistrer</span>. Les heures sup apparaissent maintenant dans votre récapitulatif mensuel.</p>
+  </div>
+
+  <div class="success-box">
+    <span class="info-icon">✅</span>
+    <div class="info-text"><strong>Félicitations !</strong> Toutes vos données du mois sont saisies. Allez dans l'onglet <strong>💶 Récap</strong> pour voir votre salaire brut et votre net avant impôt. Comparez avec votre bulletin de paie !</div>
+  </div>
+
+  <div class="info-box">
+    <span class="info-icon">📅</span>
+    <div class="info-text"><strong>Récapitulatif de l'ordre de saisie mensuel :</strong><br><br>
+    <strong>1.</strong> Saisir chaque vacation au fur et à mesure du mois<br>
+    <strong>2.</strong> Saisir les congés payés (si vous en avez pris)<br>
+    <strong>3.</strong> Attendre de recevoir votre bulletin de paie<br>
+    <strong>4.</strong> Saisir les heures sup 10% depuis votre bulletin<br>
+    <strong>5.</strong> Saisir les heures sup 25% depuis votre bulletin<br>
+    <strong>6.</strong> Comparer le récap GuardPay avec votre bulletin</div>
+  </div>
+</div>
+
+<!-- ═══ CHAPITRE 7 ═══ -->
+<div class="chapter" id="ch7">
+  <div class="chapter-num">Chapitre 07</div>
+  <h1 class="chapter-title">Lire le récapitulatif mensuel</h1>
+  <div class="chapter-line"></div>
+
+  <p>Le récapitulatif mensuel se trouve dans l'onglet <span class="gold">💶 Récap</span>. Il présente toutes vos vacations du mois regroupées par type, avec le calcul détaillé de votre salaire.</p>
+
+  <div class="mockup">
+    <div class="mockup-header">💶 Récapitulatif mensuel — Avril 2026</div>
+    <div class="mockup-row">
+      <span class="mockup-label">📋 Salaire de base (151,67h)</span>
+      <span class="mockup-value">1 908,54 €</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">📅 Majoration dimanche (+10%)</span>
+      <span class="mockup-value">30,20 €</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">⏱ H.Sup 10% (18,33h)</span>
+      <span class="mockup-value">253,72 €</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">⏱⏱ H.Sup 25% (9,67h)</span>
+      <span class="mockup-value">152,10 €</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">👔 Prime habillage (168h × 0,131)</span>
+      <span class="mockup-value">22,01 €</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label" style="color:#C9A84C;font-weight:700;">💼 SALAIRE BRUT</span>
+      <span class="mockup-value" style="color:#C9A84C;font-weight:700;">2 366,57 €</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">🍽 Panier (14 repas — hors brut)</span>
+      <span class="mockup-value">62,72 €</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label">💰 Cotisations salariales</span>
+      <span class="mockup-value" style="color:#E05555;">- 471,55 €</span>
+    </div>
+    <div class="mockup-row">
+      <span class="mockup-label" style="color:#4CAF7C;font-weight:700;">💶 NET AVANT IMPÔT</span>
+      <span class="mockup-value" style="color:#4CAF7C;font-weight:700;">1 966,52 €</span>
+    </div>
+  </div>
+
+  <h3>Explication de chaque ligne</h3>
+
+  <div class="recap-table">
+    <table class="recap-table" style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th style="background:#1C2534;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;padding:10px 14px;text-align:left;border-bottom:1px solid #C9A84C;">Ligne</th>
+          <th style="background:#1C2534;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#C9A84C;padding:10px 14px;text-align:left;border-bottom:1px solid #C9A84C;">Explication</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#C9A84C;font-weight:600;">📋 Salaire de base</td>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#7C8FA6;font-weight:300;">Votre salaire pour 151,67 heures (base mensuelle fixe). C'est toujours ce même montant.</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#C9A84C;font-weight:600;">📅 Majoration dimanche</td>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#7C8FA6;font-weight:300;">Supplément de 10% pour les heures travaillées le dimanche. S'ajoute au salaire de base.</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#C9A84C;font-weight:600;">⏱ H.Sup 10% / 25%</td>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#7C8FA6;font-weight:300;">Paiement des heures supplémentaires au taux majoré. Saisies manuellement depuis votre bulletin.</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#C9A84C;font-weight:600;">👔 Prime habillage</td>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#7C8FA6;font-weight:300;">Calculée automatiquement : nombre d'heures travaillées × 0,131 €. Compensie le temps d'habillage.</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#C9A84C;font-weight:600;">🍽 Panier (hors brut)</td>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#7C8FA6;font-weight:300;">Indemnité repas. Elle n'est pas incluse dans le brut mais s'ajoute à votre net.</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#C9A84C;font-weight:600;">💰 Cotisations</td>
+          <td style="padding:10px 14px;border-bottom:1px solid #232E42;color:#7C8FA6;font-weight:300;">Ce que l'on retire de votre brut : retraite, maladie, chômage... C'est obligatoire et calculé automatiquement.</td>
+        </tr>
+        <tr style="background:rgba(201,168,76,0.05);">
+          <td style="padding:10px 14px;color:#4CAF7C;font-weight:700;">💶 Net avant impôt</td>
+          <td style="padding:10px 14px;color:#7C8FA6;font-weight:300;">Ce que vous allez recevoir sur votre compte en banque (si taux PAS = 0%). C'est votre vrai salaire net.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ CHAPITRE 8 ═══ -->
+<div class="chapter" id="ch8">
+  <div class="chapter-num">Chapitre 08</div>
+  <h1 class="chapter-title">Vérifier sa fiche de paie</h1>
+  <div class="chapter-line"></div>
+
+  <p>C'est l'étape la plus importante ! Une fois votre bulletin reçu, comparez-le ligne par ligne avec le récapitulatif GuardPay.</p>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">1</span><span class="step-title">Ouvrir le Récap dans GuardPay</span></div>
+    <p class="step-desc">Appuyez sur l'onglet <span class="gold">💶 Récap</span> et assurez-vous d'être sur le bon mois (utilisez les flèches < et > pour naviguer).</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">2</span><span class="step-title">Comparer le salaire brut</span></div>
+    <p class="step-desc">Le montant <strong>"💼 Salaire brut"</strong> dans GuardPay doit correspondre au <strong>"Salaire brut"</strong> de votre bulletin. Si les montants sont identiques, tout est bon !</p>
+  </div>
+
+  <div class="step-block">
+    <div class="step-header"><span class="step-badge">3</span><span class="step-title">En cas d'écart</span></div>
+    <p class="step-desc">Si les montants ne correspondent pas, vérifiez ligne par ligne :<br>
+    • Avez-vous bien saisi toutes vos vacations ?<br>
+    • Y a-t-il une vacation en double dans le calendrier ?<br>
+    • Le taux horaire est-il correct dans les paramètres ?<br>
+    • Les heures sup correspondent-elles à votre bulletin ?</p>
+  </div>
+
+  <div class="success-box">
+    <span class="info-icon">✅</span>
+    <div class="info-text"><strong>Si GuardPay trouve moins que votre bulletin :</strong> Vérifiez que vous n'avez pas oublié de saisir des vacations ou des heures sup.</div>
+  </div>
+
+  <div class="warning-box">
+    <span class="info-icon">⚠️</span>
+    <div class="info-text"><strong>Si GuardPay trouve plus que votre bulletin :</strong> Il est possible que votre employeur ait fait une erreur. Gardez le récapitulatif GuardPay et demandez une explication à votre service RH.</div>
+  </div>
+
+  <h3>Comment imprimer le récapitulatif</h3>
+  <p>Dans l'onglet Récap, appuyez sur le bouton <span class="gold">🖨 Imprimer / Exporter PDF</span>. Vous pouvez imprimer le document ou l'envoyer par email comme preuve de calcul.</p>
+</div>
+
+<!-- ═══ CHAPITRE 9 ═══ -->
+<div class="chapter" id="ch9">
+  <div class="chapter-num">Chapitre 09</div>
+  <h1 class="chapter-title">Glossaire</h1>
+  <div class="chapter-line"></div>
+
+  <p>Voici les termes importants que vous rencontrerez dans GuardPay et sur votre bulletin de paie.</p>
+
+  <div class="glossaire-item">
+    <div class="glossaire-term">Vacation</div>
+    <div class="glossaire-def">Un poste de travail. Chaque fois que vous allez travailler, c'est une vacation. Elle a une date, un horaire de début et de fin.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">Taux horaire brut</div>
+    <div class="glossaire-def">Votre salaire par heure avant les déductions. Pour un coefficient 130, le taux est de 12,5835 €/h en 2025.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">Salaire brut</div>
+    <div class="glossaire-def">Votre salaire total avant les cotisations sociales. C'est la base de calcul de votre fiche de paie.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">Salaire net</div>
+    <div class="glossaire-def">Ce que vous recevez réellement sur votre compte en banque, après déduction des cotisations sociales.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">Majoration</div>
+    <div class="glossaire-def">Supplément de salaire pour certaines conditions de travail (nuit, dimanche, férié). C'est un pourcentage qui s'ajoute à votre taux de base.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">Heures supplémentaires</div>
+    <div class="glossaire-def">Heures travaillées au-delà de la durée normale hebdomadaire (35h). Elles sont payées à un taux majoré de 10% ou 25%.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">Congés N / N-1</div>
+    <div class="glossaire-def">N = congés acquis cette année (juin-mai). N-1 = congés de l'année passée à utiliser avant le 31 mai.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">CSG / CRDS</div>
+    <div class="glossaire-def">Contribution Sociale Généralisée et Contribution au Remboursement de la Dette Sociale. Ce sont des cotisations prélevées sur votre salaire brut.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">CCN</div>
+    <div class="glossaire-def">Convention Collective Nationale de la Prévention et Sécurité. C'est l'accord qui fixe les règles de votre salaire, vos droits et obligations.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">Coefficient 130</div>
+    <div class="glossaire-def">Votre niveau hiérarchique dans la CCN (Agent de Sécurité Confirmé, Niveau III, Echelon 1). Il détermine votre taux horaire minimum.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">Prime habillage</div>
+    <div class="glossaire-def">Indemnité compensant le temps que vous passez à vous habiller et déshabiller en tenue de service. Elle est de 0,131 €/h travaillée.</div>
+  </div>
+  <div class="glossaire-item">
+    <div class="glossaire-term">Repos compensateur (RC)</div>
+    <div class="glossaire-def">Repos auquel vous avez droit en échange d'heures supplémentaires effectuées. Il s'accumule et doit être pris dans l'année.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="info-box">
+    <span class="info-icon">📞</span>
+    <div class="info-text"><strong>Besoin d'aide ?</strong> Si vous avez des questions sur l'utilisation de GuardPay, contactez-nous. Nous sommes des agents de sécurité comme vous et nous comprenons vos problématiques.</div>
+  </div>
+
+  <div style="margin-top:60px;padding-top:40px;border-top:1px solid var(--line);text-align:center;">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--white);margin-bottom:8px;">Guard<span style="color:var(--gold);">Pay</span></div>
+    <div style="font-size:0.78rem;color:var(--muted);">© 2025 GuardPay · CCN Prévention et Sécurité · Guide d'utilisation v1.0</div>
+  </div>
+</div>
+
+</body>
+</html>
