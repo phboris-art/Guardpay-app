@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GuardPay — Guide gratuit CCN Sécurité Privée</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: #0A0E17;
+  color: #F0F4F8;
+  font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* LOGO */
+.logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #F0F4F8;
+  text-align: center;
+  margin-bottom: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.logo-hex {
+  width: 32px;
+  height: 32px;
+  background: #C9A84C;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #0A0E17;
+}
+
+.logo span { color: #C9A84C; }
+
+/* BADGE */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  padding: 6px 16px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 24px;
+}
+
+/* HERO */
+.hero-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-tag::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: #C9A84C;
+}
+
+h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 7vw, 3.5rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+
+h1 span { color: #C9A84C; }
+
+.hero-desc {
+  font-size: 1rem;
+  color: #7C8FA6;
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+
+/* GUIDE PREVIEW */
+.guide-preview {
+  background: #111827;
+  border: 1px solid #232E42;
+  border-left: 4px solid #C9A84C;
+  padding: 24px;
+  margin-bottom: 36px;
+}
+
+.guide-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 16px;
+}
+
+.guide-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #1C2534;
+  font-size: 0.88rem;
+  color: #7C8FA6;
+  font-weight: 300;
+}
+
+.guide-item:last-child { border-bottom: none; }
+
+.guide-item::before {
+  content: '✓';
+  width: 18px;
+  height: 18px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  color: #C9A84C;
+  flex-shrink: 0;
+  font-weight: 900;
+  margin-top: 1px;
+}
+
+.guide-item strong { color: #F0F4F8; font-weight: 500; }
+
+/* FORM */
+.form-card {
+  background: #111827;
+  border: 1px solid #232E42;
+  padding: 32px;
+  position: relative;
+}
+
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C9A84C, transparent);
+}
+
+.form-label-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.form-label-sub {
+  font-size: 0.82rem;
+  color: #7C8FA6;
+  font-weight: 300;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-input-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7C8FA6;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-input {
+  width: 100%;
+  background: #0A0E17;
+  border: 1px solid #232E42;
+  color: #F0F4F8;
+  padding: 14px 16px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus { border-color: #C9A84C; }
+.form-input::placeholder { color: #3D4F66; }
+
+.btn-submit {
+  width: 100%;
+  background: #C9A84C;
+  color: #0A0E17;
+  border: none;
+  padding: 16px 32px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.btn-submit:hover {
+  background: #E8C97A;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201,168,76,0.3);
+}
+
+.form-note {
+  font-size: 0.75rem;
+  color: #3D4F66;
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+/* SOCIAL PROOF */
+.social-proof {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #232E42;
+}
+
+.avatars {
+  display: flex;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  background: #1C2534;
+  border: 2px solid #0A0E17;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 0.65rem;
+  color: #C9A84C;
+  margin-right: -8px;
+}
+
+.social-text {
+  font-size: 0.82rem;
+  color: #7C8FA6;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.social-text strong { color: #C9A84C; font-weight: 600; }
+
+/* SUCCESS */
+.success-msg {
+  display: none;
+  background: rgba(76,175,124,0.08);
+  border: 1px solid rgba(76,175,124,0.3);
+  padding: 24px;
+  text-align: center;
+}
+
+.success-icon { font-size: 2rem; margin-bottom: 12px; }
+.success-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  color: #4CAF7C;
+  margin-bottom: 8px;
+}
+.success-text { font-size: 0.88rem; color: #7C8FA6; font-weight: 300; line-height: 1.6; }
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  margin-top: 48px;
+  font-size: 0.75rem;
+  color: #3D4F66;
+  line-height: 1.6;
+}
+
+.footer a { color: #7C8FA6; text-decoration: none; }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.container > * {
+  animation: fadeUp 0.5s ease forwards;
+  opacity: 0;
+}
+
+.logo { animation-delay: 0.1s; }
+.hero-tag { animation-delay: 0.2s; }
+h1 { animation-delay: 0.3s; }
+.hero-desc { animation-delay: 0.4s; }
+.guide-preview { animation-delay: 0.5s; }
+.form-card { animation-delay: 0.6s; }
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .container { padding: 40px 16px; }
+  .form-card { padding: 24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="logo">
+    <div class="logo-hex">GP</div>
+    Guard<span>Pay</span>
+  </div>
+
+  <div class="hero-tag">Agents de sécurité privée</div>
+
+  <h1>Reçois ton guide<br><span>CCN gratuit</span><br>en 30 secondes</h1>
+
+  <p class="hero-desc">
+    Majorations, heures sup, congés payés, cotisations... Tout ce que tu dois savoir pour vérifier ta fiche de paie. <strong style="color:#F0F4F8;">Offert, sans condition.</strong>
+  </p>
+
+  <div class="guide-preview">
+    <div class="guide-title">📖 Ce que contient le guide gratuit</div>
+    <div class="guide-item"><strong>Majoration nuit</strong> — comment la calculer exactement</div>
+    <div class="guide-item"><strong>Dimanche & jours fériés</strong> — tes droits selon la CCN</div>
+    <div class="guide-item"><strong>Heures supplémentaires</strong> — 10% vs 25%, comment les repérer</div>
+    <div class="guide-item"><strong>Congés N et N-1</strong> — ne perds plus aucun jour</div>
+    <div class="guide-item"><strong>Comment lire ta fiche de paie</strong> — ligne par ligne</div>
+    <div class="guide-item"><strong>Erreurs fréquentes</strong> — ce que les employeurs oublient souvent</div>
+  </div>
+
+  <div class="form-card" id="form-card">
+    <div class="form-label-title">Reçois le guide gratuitement</div>
+    <div class="form-label-sub">Entrez votre email — livraison immédiate</div>
+
+    <div class="form-group">
+      <label class="form-input-label">Votre prénom</label>
+      <input type="text" class="form-input" id="prenom" placeholder="ex: Mohamed" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-input-label">Votre email</label>
+      <input type="email" class="form-input" id="email" placeholder="ex: contact@email.com" required>
+    </div>
+
+    <button class="btn-submit" onclick="submitForm()">
+      🛡️ Recevoir le guide gratuit
+    </button>
+
+    <p class="form-note">
+      🔒 Aucun spam. Vos données restent confidentielles.<br>
+      Vous pouvez vous désinscrire à tout moment.
+    </p>
+
+    <div class="social-proof">
+      <div class="avatars">
+        <div class="avatar">KD</div>
+        <div class="avatar">SM</div>
+        <div class="avatar">JB</div>
+        <div class="avatar">+</div>
+      </div>
+      <div class="social-text">
+        <strong>Agents de sécurité</strong> utilisent déjà GuardPay<br>
+        pour vérifier leur fiche de paie
+      </div>
+    </div>
+  </div>
+
+  <div class="success-msg" id="success-msg">
+    <div class="success-icon">✅</div>
+    <div class="success-title">Guide envoyé !</div>
+    <p class="success-text">
+      Vérifie ta boîte email — ton guide CCN Sécurité Privée est en route !<br><br>
+      En attendant, découvre <strong style="color:#C9A84C;">GuardPay</strong> — l'application qui calcule ton salaire automatiquement.
+      <br><br>
+      <a href="https://guardpay.fr" style="color:#C9A84C;font-weight:600;text-decoration:none;">→ Découvrir GuardPay</a>
+    </p>
+  </div>
+
+  <div class="footer">
+    © 2025 GuardPay · <a href="https://guardpay.fr/confidentialite.html">Confidentialité</a> · <a href="https://guardpay.fr/conditions.html">CGU</a><br>
+    <a href="https://guardpay.fr">guardpay.fr</a>
+  </div>
+
+</div>
+
+<script>
+function submitForm() {
+  const prenom = document.getElementById('prenom').value.trim();
+  const email = document.getElementById('email').value.trim();
+
+  if (!prenom || !email) {
+    alert('Merci de remplir tous les champs !');
+    return;
+  }
+
+  if (!email.includes('@')) {
+    alert('Merci d\'entrer un email valide !');
+    return;
+  }
+
+  // Envoi vers Systeme.io
+  const formData = new FormData();
+  formData.append('email', email);
+  formData.append('first_name', prenom);
+
+  fetch('https://systeme.io/api/funnel_step_forms/c0be0480/submit', {
+    method: 'POST',
+    body: formData
+  }).then(() => {
+    document.getElementById('form-card').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+    setTimeout(() => {
+      window.location.href = 'https://guardpay.fr/guardpay-guide.html';
+    }, 3000);
+  }).catch(() => {
+    document.getElementById('form-card').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+    setTimeout(() => {
+      window.location.href = 'https://guardpay.fr/guardpay-guide.html';
+    }, 3000);
+  });
+}
+
+// Permettre validation avec la touche Entrée
+document.getElementById('email').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') submitForm();
+});
+</script>
+
+</body>
+</html>
